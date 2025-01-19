@@ -1,0 +1,46 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="practicepage2.css">  
+    <title>Alpha Leraner</title>  
+</head>  
+<body>  
+    <header>  
+        <h1>Alpha Learner</h1>  
+    </header>  
+    <main>  
+        <section>  
+            <h2>Enhance Handwriting Recognition with Practice!</h2>  
+            <div class="paragraph">
+            <p>Train models with your handwriting or add new data seamlessly.</p> 
+        </div> 
+            <div class="output-box" id="outputBox">  
+                <canvas id="writingCanvas" class="writing-canvas"></canvas>  
+            </div>  
+            <p>Practice data is used to validate and verify the accuracy of data being added during the design process. It helps ensure that the entered data is correct and aligns with the expected format or criteria. This dataset allows testing for errors, inconsistencies, or inaccuracies in the input, providing a reliable way to assess the system's functionality.</p>  
+            <div class="upload-section">
+                <h6>for image as a input</h6>  
+                <input type="file" id="imageUpload" accept="image/*" />
+                
+                <button>
+                submit
+                </button>
+                <h6>
+                    for pdf as a input
+                </h6>  
+                <input type="file" id="pdfUpload" accept="application/pdf" />  
+                <button> 
+                    submit 
+                </button>
+            </div>  
+            <button id="outputButton">Output</button>  
+            <button id="practiceButton">Practice Data</button>  
+            <button id="clearButton">Clear Canvas</button>  
+        </section>  
+        <div id="uploadedContent"></div>  
+    </main>  
+    <script src="practicepage2.js"></script>  
+</body>  
+</html>
