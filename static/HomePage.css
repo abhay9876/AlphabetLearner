@@ -1,0 +1,80 @@
+body {  
+    font-family: Arial, sans-serif;  
+    margin: 0;  
+    padding: 0;  
+    background-color: #f8f9fa;  
+    color: #333;  
+}  
+
+header {  
+    background-color: whitesmoke;  
+    padding: 10px 20px;  
+    color: black;  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+}  
+
+nav ul {  
+    list-style: none;  
+    display: flex;  
+    gap: 15px; 
+     
+}  
+
+nav a {  
+    color: black;  
+    text-decoration: none; 
+
+}  
+.footerPrg nav a {
+    color: white;
+}
+
+.hero {  
+    background: linear-gradient(to right, #A2C2E5, #E9F2FB);  
+    padding: 40px 20px;  
+    text-align: center;  
+}  
+
+.container {  
+    display: flex;  
+    justify-content: space-between;  
+    margin: 20px;  
+   
+}  
+
+.card {  
+    background-color: white;  
+    border-radius: 8px; 
+    height: 40; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);  
+    padding: 20px;  
+    flex: 1;  
+    margin: 0 10px;  
+}  
+
+.card h3 {  
+    margin-top: 0;  
+}  
+
+button {  
+    background-color: #20C997;  
+    color: white;  
+    border: none;  
+    padding: 10px 15px;  
+    border-radius: 5px;  
+    cursor: pointer;  
+}  
+
+button:hover {  
+    background-color: lightgreen;  
+}  
+
+footer {  
+    text-align: ;  
+    padding:10px;  
+    background-color: rgb(22, 26, 57);  
+    color: white;  
+    margin-top: 100px;  
+}
