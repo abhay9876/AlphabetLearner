@@ -3,16 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title%} Flask App {% endblock %}</title>
+    <title>{% block title %}Alpha Leraner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 20px 50px;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar ul li {
+            margin-left: 20px;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <h1>Welcome to my Flask App</h1>
+        <div class="navbar">
+            <div class="logo">Alpha Leraner</div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="#">Practice</a></li>
+                    <li><a href="#">Add Data</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
-        {% block content %} {% endblock %}
+        {% block content %}{% endblock %}
     </main>
+
 </body>
 </html>
