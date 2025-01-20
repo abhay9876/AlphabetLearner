@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Alpha Leraner{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/practice.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_data.css') }}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,8 +53,8 @@
             <nav>
                 <ul>
                     <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="#">Practice</a></li>
-                    <li><a href="#">Add Data</a></li>
+                    <li><a href="{{ url_for('practice') }}">Practice</a></li>
+                    <li><a href="{{ url_for('add_data') }}">Add Data</a></li>
                     <li><a href="#">About</a></li>
                 </ul>
             </nav>
@@ -59,7 +62,7 @@
     </header>
 
     <main>
-        {% block content %}{% endblock %}
+        {% block content %} {% endblock %}
     </main>
 
 </body>

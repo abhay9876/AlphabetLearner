@@ -58,7 +58,7 @@ nav a {
     margin-top: 0;  
 }  
 
-button {  
+btn {  
     background-color: #20C997;  
     color: white;  
     border: none;  
@@ -67,7 +67,7 @@ button {
     cursor: pointer;  
 }  
 
-button:hover {  
+btn:hover {  
     background-color: lightgreen;  
 }  
 

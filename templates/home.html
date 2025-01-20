@@ -10,13 +10,13 @@
     <div class="card">
         <h3>Practice Handwriting Recognition</h3>
         <p>Test your handwriting recognition skills with our interactive tool.</p>
-        <button class="btn">Submit Practice Data</button>
+        <a href="{{ url_for('practice') }}" class="btn">Practice Data</a>
     </div>
 
     <div class="card">
         <h3>Add Handwriting Data</h3>
         <p>Help improve our model by adding your handwriting samples.</p>
-        <button class="btn">Submit New Data</button>
+        <a href="{{ url_for('add_data') }}" class="btn">Add Data</a>
     </div>
 </div>
 {% endblock %}
