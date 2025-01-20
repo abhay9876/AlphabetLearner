@@ -47,7 +47,9 @@
         <p>Train models with your handwriting or add new data seamlessly.</p>
     </div>
     <div class="div2">
-        <div class="div3"></div>
+        <div class="div3">
+            <canvas id="handwritingCanvas" width="500" height="300"></canvas>
+        </div>
         <div class="div4">
             <p>Practice data is used to validate and verify the accuracy of data being added during the design process. It helps ensure that the entered data is correct and aligns with the expected format or criteria. This dataset allows testing for errors, inconsistencies, or inaccuracies in the input, providing a reliable way to assess the system's functionality.</p>
             <p>Your result will appear here.</p>
@@ -55,4 +57,29 @@
         </div>
     </div>
 </div>
+<script>
+    let canvas = document.getElementById('handwritingCanvas');
+let ctx = canvas.getContext('2d');
+let isDrawing = false;
+canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY); 
+});
+canvas.addEventListener('mousemove', (e) => {
+    if (isDrawing) {
+        ctx.lineTo(e.offsetX, e.offsetY); 
+        ctx.strokeStyle = 'black'; 
+        ctx.lineWidth = 2; 
+        ctx.stroke(); 
+    }
+});
+canvas.addEventListener('mouseup', () => {
+    isDrawing = false;
+});
+canvas.addEventListener('mouseout', () => {
+    isDrawing = false;
+});
+
+</script>
 {% endblock %}

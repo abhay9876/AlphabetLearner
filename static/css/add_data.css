@@ -29,14 +29,25 @@ body{
     padding: 30px;
 }
 
-.div3{
-
-    height:300px;
-    background-color: rgb(255, 255, 255);
-    width:500px;
+.div3 {
+    height: 300px;
+   
+    width: 500px;
     border: 2px solid rgb(149, 149, 224);
-
+    display: flex;
+    justify-content: center; /* Horizontally center canvas */
+    align-items: center; /* Vertically center canvas */
 }
+
+#handwritingCanvas {
+    width: 100%; /* Make canvas fill div3 width */
+    height: 100%; /* Make canvas fill div3 height */
+    
+        border: 1px solid #000;
+    
+}
+
+
 .div4{
     width: 50vh;
     padding-left: 30px;
