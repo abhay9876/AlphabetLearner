@@ -8,40 +8,33 @@
     <div class="div2">
         <div class="div3">
             
-                <canvas id="handwritingCanvas" width="500" height="300"></canvas>
+                <canvas id="drawcanvas" width="500" height="300"></canvas>
             
         </div>
         <div class="div4">
-            <p>Practice data is being added during the design phase to support testing and learning processes. This data is tailored to simulate real-world scenarios, ensuring it can effectively aid in practice and skill development. It serves as a foundation for testing functionality and enhancing the overall system's reliability and usability.</p>
-            <p>Your result will appear here.</p>
-            <btn>Add Data</btn>
+            <label for="language-select">Choose Language:</label>
+            <select id="language-select" onchange="generateRandomText()">
+               <option value="en">English</option>
+               <option value="es">Spanish</option>
+               <option value="fr">French</option>
+               <option value="de">German</option>
+            </select>
+            <br>
+            <br>
+
+            <h2 id="random-text">Loading...</h2>
+            <h3 id="random-letter" style="display: none;">A</h3>
+            <br>
+            <br>
+            <button onclick="generateRandomLetter()">Random Letter</button>
+            <button onclick="generateRandomWord()">Random Word</button>
+            <br>
+            <button onclick="clearCanvas()">Clear</button>
+            <br>
+            <button onclick="saveDrawing()">Save</button>
         </div>
     </div>
 </div>
-<script>
-    let canvas = document.getElementById('handwritingCanvas');
-let ctx = canvas.getContext('2d');
-let isDrawing = false;
-canvas.addEventListener('mousedown', (e) => {
-    isDrawing = true;
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX, e.offsetY); 
-});
-canvas.addEventListener('mousemove', (e) => {
-    if (isDrawing) {
-        ctx.lineTo(e.offsetX, e.offsetY); 
-        ctx.strokeStyle = 'black'; 
-        ctx.lineWidth = 2; 
-        ctx.stroke(); 
-    }
-});
-canvas.addEventListener('mouseup', () => {
-    isDrawing = false;
-});
-canvas.addEventListener('mouseout', () => {
-    isDrawing = false;
-});
+<script src="{{ url_for('static', filename='js/add_data.js') }}"></script>
 
-
-</script>
 {% endblock %}
