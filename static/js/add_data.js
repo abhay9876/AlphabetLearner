@@ -2,8 +2,8 @@ const canvas = document.getElementById('drawcanvas');
 const ctx = canvas.getContext('2d');
 let drawing = false;
 
-// language selection
-let currentLanguage = 'en'; // default language is English
+
+let currentLanguage = 'en'; 
 
 // start drawing when mouse is pressed
 canvas.addEventListener('mousedown', (event) => {
@@ -35,7 +35,7 @@ function draw(event) {
     ctx.moveTo(event.offsetX, event.offsetY);
 }
 
-// function to clear the canvas
+
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -70,40 +70,40 @@ function fetchRandomLetter(language) {
 function generateRandomLetter() {
     const letter = fetchRandomLetter(currentLanguage);
     document.getElementById('random-letter').textContent = letter;
-    document.getElementById('random-letter').style.display = 'inline'; // show letter
-    document.getElementById('random-text').style.display = 'none'; // hide word
+    document.getElementById('random-letter').style.display = 'inline'; 
+    document.getElementById('random-text').style.display = 'none'; 
 }
 
-// generate random word
+
 function generateRandomWord() {
     fetchRandomWord(currentLanguage)
         .then(word => {
             document.getElementById('random-text').textContent = word.toUpperCase();
-            document.getElementById('random-text').style.display = 'inline'; // show word
-            document.getElementById('random-letter').style.display = 'none'; // hide letter
+            document.getElementById('random-text').style.display = 'inline'; 
+            document.getElementById('random-letter').style.display = 'none'; 
         });
 }
 
 // function to update the current language
 function updateLanguage() {
     currentLanguage = document.getElementById('language-select').value;
-    generateRandomText(); // regenerate text based on new language
+    generateRandomText(); 
 }
 
-// function to generate random text (either letter or word)
+
 function generateRandomText() {
-    const randomChoice = Math.random() < 0.5; // 50% chance for letter or word
+    const randomChoice = Math.random() < 0.5; 
     if (randomChoice) {
-        generateRandomLetter(); // generate random letter
+        generateRandomLetter(); 
     } else {
-        generateRandomWord(); // generate random word
+        generateRandomWord(); 
     }
 }
 
-// call random text function initially
+
 window.onload = generateRandomText;
 
-// function to save drawing along with the letter or word
+
 function saveDrawing() {
     const imageData = canvas.toDataURL('image/png');
     const randomText = document.getElementById('random-text').style.display === 'inline'

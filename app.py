@@ -9,7 +9,7 @@ import os
 
 app=Flask(__name__)
 
-#it creates  the directory to store the processed drawing data
+
 if not os.path.exists('saved_data'):
     os.makedirs('saved_data')
 
@@ -26,32 +26,24 @@ def practice():
 def add_data():
     return render_template('add_data.html')
 
-# @app.route('/save-drawing', methods=['POST'])
-# def save_drawing():
-#     data = request.json['image']  #exttract the base64-encoded image string sent via AJAX request from the frontend
-#     image_data = base64.b64decode(data.split(',')[1]) #splits and decode the image data to extract the raw image bytes.
-#     image_data = Image.open(BytesIO(image_data)).convert('L') # Opens the image in grwsyscale mode ('L' fro 8-bit grayscale)
-#     image= image.resize((28,28)) # resize the images to 28*28 pixels for further processing (a common size for ML modes)
-#     img_array = np.array(image) / 255.0   #converts the grayscale image to a numpy array and normalizes pixel values to the range[0,1]
-#     np.save('save_data/user_letter.npy', img_array) #saves the numpyy array to the  saved_data  diretory with the filename user_letter.npy
-#     return jsonify({"message":"Drawing saved successfully!"})
+
 
 @app.route('/save-drawing', methods=['POST'])
 def save_drawing():
     try:
-        data = request.json.get('image', '')  # Safely get the 'image' key
+        data = request.json.get('image', '')  
         if ',' in data:
-            image_data = base64.b64decode(data.split(',')[1])  # Decode base64 after comma
+            image_data = base64.b64decode(data.split(',')[1])  
         else:
             return jsonify({"error": "Invalid image data format"}), 400
 
-        image = Image.open(BytesIO(image_data)).convert('L')  # Convert to grayscale
+        image = Image.open(BytesIO(image_data)).convert('L')  
 
-        # Resize to 28x28 pixels for ML processing
+        
         image = image.resize((28, 28))
-        img_array = np.array(image) / 255.0  # Normalize pixel values
+        img_array = np.array(image) / 255.0  
 
-        # Save the NumPy array
+        
         np.save('saved_data/user_letter.npy', img_array)
 
         return jsonify({"message": "Drawing saved successfully!"})
