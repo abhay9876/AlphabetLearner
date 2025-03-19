@@ -1,58 +1,49 @@
-from flask import Flask, render_template,request , jsonify
-import numpy as np 
-import base64 
-from PIL import Image 
-from io import BytesIO 
+from flask import Flask, render_template, request, jsonify
+import numpy as np
+import base64
+from PIL import Image
+from io import BytesIO
 import os
 
+app = Flask(__name__)
 
 
-app=Flask(__name__)
+def setup_folder():
+    os.makedirs("saved_data", exist_ok=True)
 
-
-if not os.path.exists('saved_data'):
-    os.makedirs('saved_data')
-
+setup_folder()
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/practice')
-def practice():
-    return render_template('practice.html')
-
 @app.route('/add_data')
 def add_data():
     return render_template('add_data.html')
 
-
-
 @app.route('/save-drawing', methods=['POST'])
 def save_drawing():
     try:
-        data = request.json.get('image', '')  
-        label = request.json.get('label', '')  
+        image_data = request.json.get('image', '')  
+        label = request.json.get('text', '')  
 
-        if not label or not label.isalpha():
-            return jsonify({"error": "Invalid label"}), 400
-        
-        if ',' in data:
-            image_data = base64.b64decode(data.split(',')[1])  
+        if not label:
+            return jsonify({"error": "Please generate a character first!"}), 400
+
+        if ',' in image_data:
+            decoded_image = base64.b64decode(image_data.split(',')[1])
         else:
-            return jsonify({"error": "Invalid image data format"}), 400
+            return jsonify({"error": "Invalid image format"}), 400
 
-        image = Image.open(BytesIO(image_data)).convert('L')  
-        image = image.resize((28, 28))
+        image = Image.open(BytesIO(decoded_image)).convert('L')  
+        image = image.resize((28, 28))  
         img_array = np.array(image) / 255.0  
 
-        
-        folder_path = f"saved_data/{label.upper()}"
+        folder_path = os.path.join("saved_data", label)
         os.makedirs(folder_path, exist_ok=True)
 
-        
-        file_count = len(os.listdir(folder_path)) + 1  
-        file_path = os.path.join(folder_path, f"{label.upper()}_{file_count}.npy")
+        file_count = len(os.listdir(folder_path)) + 1
+        file_path = os.path.join(folder_path, f"{label}_{file_count}.npy")
 
         np.save(file_path, img_array)
 
@@ -62,39 +53,37 @@ def save_drawing():
         return jsonify({"error": str(e)}), 500
     
 
-
-def preprocess_image(image_data):
-    
-    image_data = image_data.split(",")[1]  
-    image_bytes = base64.b64decode(image_data)
-    
-    
-    nparr = np.frombuffer(image_bytes, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
-
-    
-    img = cv2.resize(img, (28, 28))
-    img = img / 255.0  
-
-   
-    img = img.reshape(1, 28, 28, 1)
-    
-    return img
-
+@app.route('/practice')
+def practice():
+    return render_template('practice.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json
-    image_data = data['image']
-    
-    processed_img = preprocess_image(image_data)
-    
-    
-    prediction = model.predict(processed_img)
-    predicted_label = np.argmax(prediction)  
-    
-    return jsonify({'prediction': str(predicted_label)})
+    try:
+        image_data = request.json.get('image', '')
+
+        if ',' in image_data:
+            decoded_image = base64.b64decode(image_data.split(',')[1])
+        else:
+            return jsonify({"error": "Invalid image format"}), 400
+
+        image = Image.open(BytesIO(decoded_image)).convert('L')  
+        image = image.resize((28, 28))  
+        img_array = np.array(image) / 255.0  
+        img_array = img_array.reshape(1, 28, 28, 1)  
+
+        from tensorflow.keras.models import load_model
+        model = load_model('model/trained_model.h5')
+
+        prediction = model.predict(img_array)
+        predicted_label = chr(np.argmax(prediction) + ord('A'))  
+
+        return jsonify({"prediction": predicted_label})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
-if __name__  == '__main__':
+
+if __name__ == '__main__':
     app.run(debug=True)

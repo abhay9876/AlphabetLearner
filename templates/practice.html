@@ -4,7 +4,7 @@
 <div class="div">
     <div class="div1">
         <h1>Enhance Handwriting Recognition with Practice!</h1>
-        <p>practice here for better learning.</p>
+        <p>Practice here for better learning.</p>
     </div>
     <div class="div2">
         <div class="div3">
@@ -12,37 +12,47 @@
         </div>
         <div class="div4">
             <button onclick="clearCanvas()">Clear</button>
-            <button onclick="predict()">Predict</button>
+            <button id="predictBtn" onclick="predict()">Predict</button>
             <p><strong>Your result:</strong> <span id="output">N/A</span></p>
         </div>
     </div>
 </div>
+
 <script>
     let canvas = document.getElementById('handwritingCanvas');
-let ctx = canvas.getContext('2d');
-let isDrawing = false;
-canvas.addEventListener('mousedown', (e) => {
-    isDrawing = true;
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX, e.offsetY); 
-});
-canvas.addEventListener('mousemove', (e) => {
-    if (isDrawing) {
-        ctx.lineTo(e.offsetX, e.offsetY); 
-        ctx.strokeStyle = 'black'; 
-        ctx.lineWidth = 2; 
-        ctx.stroke(); 
-    }
-});
-canvas.addEventListener('mouseup', () => {
-    isDrawing = false;
-});
-canvas.addEventListener('mouseout', () => {
-    isDrawing = false;
-});
+    let ctx = canvas.getContext('2d');
+    let isDrawing = false;
 
-function predict() {
-        let imageData = canvas.toDataURL("image/png"); // Convert canvas to image
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'black';
+
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (isDrawing) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById("output").innerText = "N/A";
+    }
+
+    function predict() {
+        let predictBtn = document.getElementById('predictBtn');
+        predictBtn.disabled = true;  
+        let imageData = canvas.toDataURL("image/png", 0.5); 
 
         fetch('/predict', {
             method: 'POST',
@@ -51,10 +61,16 @@ function predict() {
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("output").innerText = data.prediction;
+            document.getElementById("output").innerText = data.prediction || "Error";
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("output").innerText = "Prediction failed!";
+        })
+        .finally(() => {
+            predictBtn.disabled = false;  
+        });
     }
-
 </script>
+
 {% endblock %}
